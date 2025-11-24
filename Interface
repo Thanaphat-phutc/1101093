@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RVM Interface - Premium Design</title>
+    <title>RVM Interface - Advanced Material Sorting (Interactive)</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700;800&display=swap" rel="stylesheet">
     <style>
         /* ------------------ Base & Variables ------------------ */
         :root {
-            --color-primary: #00A86B; /* Emerald Green */
-            --color-secondary: #FFC300; /* Gold Yellow */
-            --color-dark: #121212;
-            --color-light: #F9F9F9;
-            --color-text-body: #444444;
-            --color-shadow: rgba(0, 0, 0, 0.15);
+            --color-primary: #00897B; /* Teal Green - Elegance */
+            --color-secondary: #FFB300; /* Amber Gold */
+            --color-light-bg: #E0F7FA; /* Light Teal/Cyan Background */
+            --color-soft-bg: #F4F6F9; /* พื้นหลังจอ Soft UI */
+            --color-dark-text: #263238;
+            --color-shadow-dark: rgba(140, 153, 166, 0.4);
+            --color-shadow-light: rgba(255, 255, 255, 0.8);
         }
 
         body {
             font-family: 'Sarabun', sans-serif;
-            background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+            background: linear-gradient(145deg, var(--color-light-bg), #B2EBF2);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -29,11 +30,12 @@
 
         .screen-container {
             width: 100%;
-            max-width: 450px;
-            height: 780px;
-            background-color: var(--color-light);
-            border-radius: 30px;
-            box-shadow: 0 20px 60px var(--color-shadow);
+            max-width: 480px;
+            height: 800px;
+            background-color: var(--color-soft-bg);
+            border-radius: 35px;
+            box-shadow: 10px 10px 30px var(--color-shadow-dark), 
+                        -10px -10px 30px var(--color-shadow-light);
             position: relative;
             overflow: hidden;
         }
@@ -41,133 +43,154 @@
         .screen {
             width: 100%;
             height: 100%;
-            padding: 40px 30px;
+            padding: 40px 35px;
             box-sizing: border-box;
             position: absolute;
             top: 0;
             left: 0;
-            display: none;
+            display: none; 
             flex-direction: column;
             justify-content: space-between;
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            color: var(--color-dark-text);
+            pointer-events: none; 
         }
         
-        .screen.show { display: flex; opacity: 1; transform: translateX(0); }
+        /* สไตล์สำหรับหน้าจอที่กำลังแสดงผล */
+        .screen.show { 
+            display: flex; 
+            opacity: 1; 
+            transform: translateX(0); 
+            pointer-events: all;
+        }
         .screen:not(.show) { opacity: 0; transform: translateX(100%); }
 
         .header {
             color: var(--color-primary);
-            font-size: 32px;
+            font-size: 38px;
             font-weight: 800;
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 1px var(--color-shadow-light);
         }
 
+        /* --- Global CTA Styling for Soft UI --- */
         .main-cta {
             width: 100%;
-            padding: 20px;
+            padding: 22px;
             border: none;
-            border-radius: 15px;
-            font-size: 20px;
+            border-radius: 20px;
+            font-size: 22px;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease-in-out;
+            box-shadow: 6px 6px 12px var(--color-shadow-dark), 
+                        -6px -6px 12px var(--color-shadow-light);
         }
 
-        .main-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); }
-        .main-cta:active { transform: scale(0.98); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
-
-        /* ------------------ Screen 1: Welcome ------------------ */
-        #welcome-screen .content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+        .main-cta:active {
+            box-shadow: inset 4px 4px 8px var(--color-shadow-dark), 
+                        inset -4px -4px 8px var(--color-shadow-light);
+            transform: scale(0.99);
         }
         
-        #welcome-screen .icon { font-size: 80px; margin-bottom: 10px; }
-        #welcome-screen .headline { font-size: 38px; font-weight: 800; color: var(--color-dark); margin-bottom: 15px; }
-        #welcome-screen .info { font-size: 18px; color: var(--color-text-body); line-height: 1.6; }
+        /* ------------------ Screen 1: Welcome & Login ------------------ */
+        #welcome-screen .content { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        #welcome-screen .icon { font-size: 110px; margin-bottom: 10px; }
+        #welcome-screen .headline { font-size: 44px; font-weight: 800; color: var(--color-dark-text); margin-bottom: 15px; }
 
         #welcome-screen .main-cta {
             background-color: var(--color-primary);
             color: white;
             margin-top: 60px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
-        /* ------------------ Screen 2: Processing ------------------ */
-        #processing-screen .counter-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        #processing-screen .count { font-size: 160px; font-weight: 800; color: var(--color-primary); line-height: 1; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); }
-        
-        #processing-screen .value {
-            font-size: 30px;
-            font-weight: 700;
-            color: var(--color-secondary);
-            margin-top: 10px;
-            background-color: var(--color-dark);
-            padding: 5px 15px;
-            border-radius: 8px;
+        #login-screen h2 { font-size: 26px; color: var(--color-dark-text); margin-bottom: 30px; }
+        #phone-input {
+            width: 100%; padding: 18px; font-size: 28px; text-align: center; border: none; border-radius: 15px; margin-bottom: 15px; background-color: var(--color-soft-bg);
+            box-shadow: inset 4px 4px 8px var(--color-shadow-dark), inset -4px -4px 8px var(--color-shadow-light);
+        }
+        #login-error { color: #E53935; font-size: 18px; margin-top: 10px; height: 25px; font-weight: 700; }
+        #login-screen .main-cta { background-color: var(--color-secondary); color: var(--color-dark-text); margin-top: 30px; }
+
+
+        /* ------------------ Screen 3: Type Selection & Sub Selection ------------------ */
+        #type-selection-screen .options, #glass-sub-selection-screen .options, #plastic-sub-selection-screen .options { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+            width: 100%; 
+            margin-top: 20px; 
         }
         
-        #processing-screen .status-msg { font-size: 18px; color: #E53935; margin-top: 25px; font-weight: 700; }
-
-        #processing-screen .main-cta { background-color: var(--color-secondary); color: var(--color-dark); }
-
-        /* ------------------ Screen 3: Reward Selection ------------------ */
-        #reward-selection-screen .options-list { flex-grow: 1; display: flex; flex-direction: column; gap: 20px; margin-top: 30px; }
-        
-        #reward-selection-screen .summary-text { font-size: 20px; font-weight: 700; color: var(--color-dark); text-align: center; margin-bottom: 15px; }
-        #reward-selection-screen .summary-value { font-size: 24px; color: var(--color-primary); font-weight: 800; margin-left: 10px;}
-
-        .selection-button {
+        .type-button, .sub-type-button {
             width: 100%;
-            padding: 20px;
+            padding: 25px 20px; 
             border: none;
-            border-radius: 18px;
-            text-align: left;
+            border-radius: 25px;
+            font-size: 22px; 
+            font-weight: 800;
+            cursor: pointer;
             color: white;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-            transition: transform 0.2s;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 6px 6px 12px var(--color-shadow-dark), -6px -6px 12px var(--color-shadow-light);
+            text-align: center;
+        }
+        .type-button .price-info { font-size: 16px; font-weight: 400; opacity: 0.9; display: block; margin-top: 5px; }
+
+        .sub-type-button {
+            padding: 25px 20px;
+            font-size: 22px;
+            text-align: center;
         }
 
-        .selection-button:hover { transform: translateX(5px); }
-        .selection-button:active { transform: scale(0.98); }
-
-        .btn-payment { background: linear-gradient(90deg, #4CAF50, var(--color-primary)); }
-        .btn-coupon { background: linear-gradient(90deg, #2979FF, #03A9F4); }
-        .btn-donation { background: linear-gradient(90deg, #9C27B0, #D1C4E9); }
-        
-        .button-label { font-size: 22px; font-weight: 800; display: block; margin-bottom: 5px; }
-        .button-desc { font-size: 15px; opacity: 0.9; font-weight: 400; }
-
-        #reward-selection-screen .cancel-btn {
-            background-color: #EEE;
-            color: var(--color-text-body);
-            box-shadow: none;
-            font-weight: 400;
+        .type-button:active, .sub-type-button:active { 
+            box-shadow: inset 4px 4px 8px var(--color-shadow-dark), inset -4px -4px 8px var(--color-shadow-light);
+            transform: scale(0.99);
         }
 
-        /* ------------------ Screen 4: Payment/QR ------------------ */
-        #payment-screen .qr-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        /* สีปุ่มหลัก */
+        .btn-glass { background: linear-gradient(135deg, #78909C, #546E7A); } 
+        .btn-plastic { background: linear-gradient(135deg, #42A5F5, #2196F3); } /* สีน้ำเงินสำหรับ Plastic หลัก */
+        .btn-can { background: linear-gradient(135deg, #BDBDBD, #9E9E9E); } 
 
-        .qr-code { width: 250px; height: 250px; background-color: var(--color-dark); margin-bottom: 25px; border-radius: 15px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); }
+        /* สีปุ่มย่อยพลาสติก */
+        .btn-pet { background: linear-gradient(135deg, #4DB6AC, #26A69A); } /* Teal (PET ใส) */
+        .btn-hdpe { background: linear-gradient(135deg, #FFD54F, #FFC107); } /* Amber Gold (HDPE ขุ่น) */
 
-        #payment-screen .instruction { font-size: 20px; color: var(--color-text-body); font-weight: 700; margin-bottom: 10px; }
+        /* Glass Sub-Type Styles */
+        .btn-sub-glass-1 { background: linear-gradient(135deg, #CFD8DC, #90A4AE); color: var(--color-dark-text); } 
+        .btn-sub-glass-2 { background: linear-gradient(135deg, #66BB6A, #4CAF50); } 
+        .btn-sub-glass-3 { background: linear-gradient(135deg, #FFB74D, #FF9800); } 
+        .btn-sub-glass-4 { background: linear-gradient(135deg, #546E7A, #37474F); } 
+
+
+        /* ------------------ Screen 4: Processing ------------------ */
+        #processing-screen .counter-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        #processing-screen .count { font-size: 200px; font-weight: 800; color: var(--color-primary); line-height: 1; text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1); }
         
-        #payment-screen .success-msg { font-size: 30px; font-weight: 800; color: var(--color-secondary); }
-
-        #payment-screen .main-cta { background-color: var(--color-primary); color: white; }
-
-        /* ------------------ Screen 5: Thank You ------------------ */
-        #thank-you-screen .content { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        #processing-screen .value { font-size: 38px; font-weight: 800; color: var(--color-secondary); margin-top: 15px; }
+        #processing-screen .status-msg { font-size: 20px; color: #E53935; margin-top: 25px; font-weight: 700; }
+        #processing-screen .main-cta { background-color: var(--color-secondary); color: var(--color-dark-text); }
         
-        #thank-you-screen .icon { font-size: 100px; margin-bottom: 10px; }
-        #thank-you-screen .thanks-msg { font-size: 36px; font-weight: 800; color: var(--color-primary); margin-bottom: 20px; }
+        /* ------------------ Reward / Payment / Thank You (Styles) ------------------ */
+        .selection-button { 
+            width: 100%; padding: 25px; border: none; border-radius: 20px; text-align: left; color: white; 
+            box-shadow: 6px 6px 12px var(--color-shadow-dark), -6px -6px 12px var(--color-shadow-light); margin-bottom: 20px; cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-payment { background: linear-gradient(90deg, #66BB6A, #4CAF50); }
+        .btn-coupon { background: linear-gradient(90deg, #42A5F5, #2196F3); }
+        .btn-donation { background: linear-gradient(90deg, #AB47BC, #8E24AA); }
         
-        #thank-you-screen .main-cta { background-color: var(--color-primary); color: white; }
+        .button-label { font-size: 24px; font-weight: 800; display: block; margin-bottom: 5px; }
+        .button-desc { font-size: 16px; opacity: 0.9; font-weight: 400; }
+        .cancel-btn { 
+            background-color: var(--color-soft-bg) !important; color: var(--color-dark-text) !important; 
+            box-shadow: 6px 6px 12px var(--color-shadow-dark), -6px -6px 12px var(--color-shadow-light) !important; 
+            font-weight: 400 !important; 
+        }
     </style>
 </head>
 <body>
@@ -178,14 +201,103 @@
         <div class="header">Refun Machine</div>
         <div class="content">
             <div class="icon">♻️</div>
-            <div class="headline">คืนขวด/กระป๋อง แลกเงินรักษ์โลก</div>
-            <p class="info">
-                ร่วมสร้างโลกที่ยั่งยืน<br>
-                เริ่มต้นใช้งานง่ายๆ เพียง 3 ขั้นตอน
+            <div class="headline">คืนขวดสู่โลกยั่งยืน</div>
+            <p class="info" style="color: var(--color-dark-text); font-size: 18px;">
+                เริ่มต้นง่ายๆ เพื่อรับแต้มสะสมและเงินคืน
             </p>
         </div>
-        <button class="main-cta" onclick="startTransaction()">
+        <button class="main-cta" onclick="navigate('login-screen')">
             ▶ เริ่มต้นใช้งาน
+        </button>
+    </div>
+
+    <div id="login-screen" class="screen">
+        <div class="header">เข้าสู่ระบบ</div>
+        <div class="content">
+            <div class="icon">📱</div>
+            <h2>ยืนยันตัวตนด้วยเบอร์โทรศัพท์</h2>
+            <input type="number" id="phone-input" placeholder="08XXXXXXXX" maxlength="10" />
+            <div id="login-error"></div>
+        </div>
+        <button class="main-cta" onclick="handleLogin()">
+            ยืนยัน
+        </button>
+    </div>
+
+    <div id="type-selection-screen" class="screen">
+        <div class="header">เลือกประเภทบรรจุภัณฑ์</div>
+        <div class="content">
+            <p style="font-size: 20px; color: var(--color-dark-text); margin-bottom: 40px; font-weight: 700;">กรุณาเลือกประเภทของบรรจุภัณฑ์</p>
+            
+            <div class="options">
+                <button class="type-button btn-glass" onclick="navigate('glass-sub-selection-screen')">
+                    <span style="font-size: 35px;">🥂</span> **ขวดแก้ว (Glass)** <span class="price-info">(คลิกเพื่อเลือกประเภทย่อย)</span>
+                </button>
+                
+                <button class="type-button btn-plastic" onclick="navigate('plastic-sub-selection-screen')">
+                    <span style="font-size: 35px;">♻️</span> **ขวดพลาสติก (Plastic)**
+                    <span class="price-info">(คลิกเพื่อเลือก พลาสติกใส/ขุ่น)</span>
+                </button>
+                
+                <button class="type-button btn-can" onclick="selectTypeAndStart('CAN')">
+                    <span style="font-size: 35px;">🥫</span> **กระป๋อง (Can)**
+                    <span class="price-info">💰 **~0.70 บาท/กก.**</span>
+                </button>
+            </div>
+        </div>
+        <button class="main-cta cancel-btn" onclick="navigate('welcome-screen')">
+            ยกเลิก
+        </button>
+    </div>
+
+    <div id="plastic-sub-selection-screen" class="screen">
+        <div class="header">เลือกประเภทพลาสติก</div>
+        <div class="content">
+            <p style="font-size: 20px; color: var(--color-dark-text); margin-bottom: 20px; font-weight: 700;">กรุณาเลือกประเภทพลาสติกที่คุณต้องการหยอด</p>
+            
+            <div class="options">
+                <button class="sub-type-button btn-pet" onclick="selectTypeAndStart('PET')">
+                    <span class="button-label">🧴 พลาสติกใส (PET)</span>
+                    <span class="button-desc">💰 **9-11 บาท/กก. (เฉลี่ย 10.00 บาท)**</span>
+                </button>
+                <button class="sub-type-button btn-hdpe" onclick="selectTypeAndStart('HDPE')">
+                    <span class="button-label">🥛 พลาสติกขุ่น (HDPE)</span>
+                    <span class="button-desc">💰 **ประมาณ 13.00 บาท/กก.**</span>
+                </button>
+            </div>
+        </div>
+        <button class="main-cta cancel-btn" onclick="navigate('type-selection-screen')">
+            🔙 กลับไปเลือกประเภทหลัก
+        </button>
+    </div>
+
+
+    <div id="glass-sub-selection-screen" class="screen">
+        <div class="header">เลือกประเภทขวดแก้ว</div>
+        <div class="content">
+            <p style="font-size: 20px; color: var(--color-dark-text); margin-bottom: 20px; font-weight: 700;">ราคาที่แสดงคือราคา/กิโลกรัม (จำลองเป็น/ขวด)</p>
+            
+            <div class="options">
+                <button class="sub-type-button btn-sub-glass-1" onclick="selectTypeAndStart('GLASS_CLEAR')">
+                    <span class="button-label">ขวดแก้วใสทั่วไป</span>
+                    <span class="button-desc">💰 **2.00 บาท/กก.**</span>
+                </button>
+                <button class="sub-type-button btn-sub-glass-2" onclick="selectTypeAndStart('GLASS_GREEN_ALCOHOL')">
+                    <span class="button-label">ขวดแก้วสีเขียวใส (แอลกอฮอล์)</span>
+                    <span class="button-desc">💰 **15.00 บาท/กก.**</span>
+                </button>
+                <button class="sub-type-button btn-sub-glass-3" onclick="selectTypeAndStart('GLASS_BROWN_ALCOHOL')">
+                    <span class="button-label">ขวดแก้วสีชาใส (แอลกอฮอล์)</span>
+                    <span class="button-desc">💰 **11.00 บาท/กก.**</span>
+                </button>
+                <button class="sub-type-button btn-sub-glass-4" onclick="selectTypeAndStart('GLASS_BROWN_ENERGY')">
+                    <span class="button-label">ขวดแก้วสีชาใส (เครื่องดื่มชูกำลัง)</span>
+                    <span class="button-desc">💰 **1.50 บาท/กก.**</span>
+                </button>
+            </div>
+        </div>
+        <button class="main-cta cancel-btn" onclick="navigate('type-selection-screen')">
+            🔙 กลับไปเลือกประเภทหลัก
         </button>
     </div>
 
@@ -194,11 +306,12 @@
         
         <div class="counter-area">
             <div class="count" id="item-count">0</div>
-            <div class="value" id="total-value" style="color: white;">รวม: 0.00 บาท</div>
+            <div class="value" id="total-value">รวม: 0.00 บาท</div>
             <div class="status-msg" id="processing-status">กรุณาหยอดบรรจุภัณฑ์ในช่องรับ</div>
+            <p style="margin-top: 20px; font-weight: 800; color: var(--color-primary);" id="selected-type-display"></p>
         </div>
         
-        <button class="main-cta" onclick="navigate('reward-selection-screen')">
+        <button class="main-cta" onclick="finishTransaction()">
             เสร็จสิ้นและรับรางวัล
         </button>
     </div>
@@ -206,22 +319,22 @@
     <div id="reward-selection-screen" class="screen">
         <div class="header">เลือกช่องทางรับรางวัล</div>
         
-        <div class="options-list">
-            <p class="summary-text">ยอดเงินสะสม: <span class="summary-value" id="reward-summary-value">0.00 บาท</span></p>
+        <div class="content" style="gap: 15px;">
+            <p class="summary-text" style="color: var(--color-dark-text); text-align: center; font-weight: 700; margin-bottom: 20px;">ยอดเงินสะสม: <span class="summary-value" id="reward-summary-value" style="font-size: 28px; color: var(--color-primary); font-weight: 800;">0.00 บาท</span></p>
 
-            <button class="selection-button btn-payment" onclick="navigate('payment-screen')">
+            <button class="selection-button btn-payment" onclick="showPaymentScreen()">
                 <span class="button-label">✅ รับเงินโอนเข้า E-Wallet</span>
                 <span class="button-desc">สแกน QR Code (PromptPay / TrueMoney)</span>
             </button>
 
             <button class="selection-button btn-coupon" onclick="alert('กำลังพิมพ์คูปองส่วนลด...'); navigate('thank-you-screen')">
                 <span class="button-label">🧾 พิมพ์คูปองส่วนลด</span>
-                <span class="button-desc">รับส่วนลดจากร้านค้าที่ร่วมรายการ</span>
+                <span class="button-desc">ใช้ส่วนลดสำหรับร้านค้าที่ร่วมรายการ</span>
             </button>
 
             <button class="selection-button btn-donation" onclick="navigate('thank-you-screen')">
                 <span class="button-label">❤️ บริจาคเพื่อการกุศล</span>
-                <span class="button-desc">มอบให้มูลนิธิเพื่อสิ่งแวดล้อม</span>
+                <span class="button-desc">มอบยอดเงินสะสมทั้งหมดให้มูลนิธิสิ่งแวดล้อม</span>
             </button>
         </div>
         
@@ -233,27 +346,28 @@
     <div id="payment-screen" class="screen">
         <div class="header">รับเงินโอน</div>
         
-        <div class="qr-area">
-            <div class="qr-code"></div>
-            <div class="instruction">กรุณาสแกน QR Code</div>
-            <div class="success-msg" id="payment-status">3.50 บาท</div>
+        <div class="qr-area content" style="justify-content: center;">
+            <div class="qr-code" style="height: 250px; width: 250px; background-color: #546E7A; margin: 20px auto; border-radius: 10px;"></div>
+            <div class="instruction" style="color: var(--color-dark-text); font-size: 18px; font-weight: 500;">กรุณาใช้แอปธนาคารสแกน QR Code เพื่อรับเงิน</div>
+            <div class="success-msg" id="payment-status" style="font-size: 30px; font-weight: 800; color: var(--color-primary); margin-top: 20px;">0.00 บาท</div>
         </div>
         
-        <button class="main-cta" style="background-color: var(--color-primary);" onclick="navigate('thank-you-screen')">
+        <button class="main-cta" style="background-color: var(--color-primary); color: white;" onclick="navigate('thank-you-screen')">
             เสร็จสิ้น
         </button>
     </div>
 
     <div id="thank-you-screen" class="screen">
-        <div class="content">
-            <div class="icon">🎉</div>
-            <div class="thanks-msg">ทำรายการสำเร็จ!</div>
-            <p style="font-size: 18px; color: var(--color-text-body);">
-                ขอบคุณที่ร่วมเป็นส่วนหนึ่ง<br>ในการรักษาสิ่งแวดล้อม
+        <div class="header"></div>
+        <div class="content" style="justify-content: center;">
+            <div class="icon">🏆</div>
+            <div class="thanks-msg" style="font-size: 40px; font-weight: 800; color: var(--color-primary);">ยอดเยี่ยม!</div>
+            <p style="font-size: 20px; color: var(--color-dark-text); font-weight: 500; text-align: center;">
+                การทำรายการของคุณเสร็จสมบูรณ์แล้ว
             </p>
         </div>
         
-        <button class="main-cta" style="background-color: var(--color-primary);" onclick="navigate('welcome-screen')">
+        <button class="main-cta" style="background-color: var(--color-primary); color: white;" onclick="navigate('welcome-screen')">
             กลับสู่หน้าเริ่มต้น
         </button>
     </div>
@@ -263,60 +377,153 @@
 <script>
     let currentTotalValue = 0.00;
     let detectionTimer = null;
-    const VALUE_PER_ITEM = 0.70;
+    let selectedType = '';
+    let itemCount = 0;
+    
+    // กำหนดค่าราคาสำหรับแต่ละประเภท
+    const VALUE_MAP = {
+        'GLASS_CLEAR': 2.00, 
+        'GLASS_GREEN_ALCOHOL': 15.00, 
+        'GLASS_BROWN_ALCOHOL': 11.00, 
+        'GLASS_BROWN_ENERGY': 1.50, 
+        'PET': 10.00, // ใช้ 10 บาท/กก. เป็นค่าเฉลี่ย
+        'HDPE': 13.00, 
+        'CAN': 0.70 
+    };
 
-    // ฟังก์ชันสำหรับเปลี่ยนหน้าจอ (ใช้ TranslateX เพื่อให้เกิด Animation)
+    // Mapping ชื่อประเภทสำหรับการแสดงผล 
+    const TYPE_DISPLAY_MAP = {
+        'GLASS_CLEAR': 'ขวดแก้วใสทั่วไป',
+        'GLASS_GREEN_ALCOHOL': 'ขวดแก้วสีเขียวใส (แอลกอฮอล์)',
+        'GLASS_BROWN_ALCOHOL': 'ขวดแก้วสีชาใส (แอลกอฮอล์)',
+        'GLASS_BROWN_ENERGY': 'ขวดแก้วสีชาใส (เครื่องดื่มชูกำลัง)',
+        'PET': 'พลาสติกใส (PET)',
+        'HDPE': 'พลาสติกขุ่น (HDPE)',
+        'CAN': 'กระป๋อง (Can)'
+    };
+    
+    // ************************ 1. Navigation Logic ************************
+    
     function navigate(screenId) {
         document.querySelectorAll('.screen').forEach(screen => {
-            if (screen.id === screenId) {
-                screen.classList.add('show');
-            } else {
-                screen.classList.remove('show');
-            }
+            screen.classList.remove('show');
         });
+        
+        const targetScreen = document.getElementById(screenId);
+        if (targetScreen) {
+            targetScreen.classList.add('show');
+        }
+
+        if (screenId === 'processing-screen') {
+            startDetectionSimulation();
+        } else if (screenId === 'reward-selection-screen') {
+            document.getElementById('reward-summary-value').textContent = currentTotalValue.toFixed(2) + ' บาท';
+            stopDetectionSimulation();
+        } else if (screenId === 'welcome-screen') {
+             currentTotalValue = 0.00;
+             itemCount = 0;
+             selectedType = '';
+        }
     }
 
-    // ฟังก์ชันเริ่มธุรกรรมและจำลองการหยอดขวด
-    function startTransaction() {
-        currentTotalValue = 0.00;
-        document.getElementById('item-count').textContent = '0';
-        document.getElementById('total-value').textContent = 'รวม: 0.00 บาท';
-        document.getElementById('processing-status').textContent = 'กรุณาหยอดบรรจุภัณฑ์ในช่องรับ';
+    // ************************ 2. Login Logic ************************
+
+    function handleLogin() {
+        const phoneInput = document.getElementById('phone-input');
+        const errorDisplay = document.getElementById('login-error');
+        
+        if (phoneInput.value.length === 10 && !isNaN(phoneInput.value)) {
+            errorDisplay.textContent = '✅ ยืนยันสำเร็จ!';
+            setTimeout(() => {
+                navigate('type-selection-screen');
+                errorDisplay.textContent = '';
+                phoneInput.value = ''; 
+            }, 800);
+        } else {
+            errorDisplay.textContent = '⚠️ กรุณากรอกเบอร์โทรศัพท์ 10 หลักให้ถูกต้อง';
+        }
+    }
+
+    // ************************ 3. Type Selection Logic ************************
+    
+    // ฟังก์ชันนี้ถูกใช้เมื่อเลือกประเภทย่อยและพร้อมเริ่มหยอด
+    function selectTypeAndStart(type) {
+        selectedType = type;
+        
+        // ดึงราคาจาก VALUE_MAP มาแสดงผล
+        const displayPrice = VALUE_MAP[selectedType].toFixed(2);
+        const typeName = TYPE_DISPLAY_MAP[selectedType];
+        
+        document.getElementById('selected-type-display').textContent = `ประเภทที่เลือก: ${typeName} (ประมาณ ${displayPrice} บาท/กก.)`;
         
         navigate('processing-screen');
-        
-        if (detectionTimer) clearInterval(detectionTimer);
-        
-        // จำลองการหยอดขวด 3 ครั้ง
-        let count = 0;
-        detectionTimer = setInterval(() => {
-            if (count < 3) {
-                // จำลองการตรวจจับ
-                currentTotalValue += VALUE_PER_ITEM;
-                count++;
-                document.getElementById('item-count').textContent = count;
-                document.getElementById('total-value').textContent = `รวม: ${currentTotalValue.toFixed(2)} บาท`;
-                document.getElementById('processing-status').textContent = 'กำลังตรวจสอบ...';
-                if (count === 3) {
-                    document.getElementById('processing-status').textContent = 'ตรวจจับครบแล้ว';
-                }
-            } else {
-                clearInterval(detectionTimer);
-            }
-        }, 1200); 
     }
-    
-    // อัปเดตข้อมูลสรุปรางวัลเมื่อเปลี่ยนหน้า
-    document.getElementById('reward-selection-screen').addEventListener('transitionend', function() {
-        if (this.classList.contains('show')) {
-            document.getElementById('reward-summary-value').textContent = currentTotalValue.toFixed(2) + ' บาท';
-            document.getElementById('payment-status').textContent = currentTotalValue.toFixed(2) + ' บาท';
-        }
-    });
 
-    // เริ่มต้นแสดงหน้า Welcome เมื่อโหลด
+    // ************************ 4. Processing Logic (Simulation) ************************
+    
+    function startDetectionSimulation() {
+        itemCount = 0;
+        currentTotalValue = 0.00;
+        updateProcessingDisplay();
+        
+        // รีเซ็ตปุ่มเสร็จสิ้น
+        document.getElementById('processing-screen').querySelector('.main-cta').style.backgroundColor = 'var(--color-secondary)';
+        document.getElementById('processing-screen').querySelector('.main-cta').textContent = 'เสร็จสิ้นและรับรางวัล';
+
+        
+        detectionTimer = setInterval(() => {
+            // สมมติว่า 1 ชิ้น (ขวด/กระป๋อง) มีน้ำหนักเฉลี่ย 0.15 กก.
+            const weightPerItem = 0.15; 
+            const valuePerItem = VALUE_MAP[selectedType] * weightPerItem;
+            
+            itemCount++;
+            currentTotalValue += valuePerItem;
+            
+            updateProcessingDisplay();
+            
+            if (itemCount >= 5) {
+                document.getElementById('processing-status').textContent = 'กำลังรอ... หากเสร็จแล้วกด "เสร็จสิ้นและรับรางวัล"';
+                document.getElementById('processing-screen').querySelector('.main-cta').style.backgroundColor = 'var(--color-primary)';
+                
+            } else {
+                document.getElementById('processing-status').textContent = 'กำลังตรวจจับ... กรุณาหยอดต่อ';
+            }
+        }, 2000); 
+    }
+
+    function stopDetectionSimulation() {
+        clearInterval(detectionTimer);
+        detectionTimer = null;
+    }
+
+    function updateProcessingDisplay() {
+        document.getElementById('item-count').textContent = itemCount;
+        document.getElementById('total-value').textContent = `รวม: ${currentTotalValue.toFixed(2)} บาท`;
+    }
+
+    function finishTransaction() {
+        if (itemCount > 0) {
+            stopDetectionSimulation();
+            navigate('reward-selection-screen');
+        } else {
+            document.getElementById('processing-status').textContent = '⚠️ ยังไม่มีการหยอดบรรจุภัณฑ์! กรุณาหยอดก่อน';
+        }
+    }
+
+    // ************************ 5. Reward/Payment Logic ************************
+    
+    function showPaymentScreen() {
+        document.getElementById('payment-status').textContent = currentTotalValue.toFixed(2) + ' บาท';
+        navigate('payment-screen');
+    }
+
+
+    // ************************ 6. Initial Load ************************
+    
     document.addEventListener('DOMContentLoaded', () => {
-        navigate('welcome-screen');
+        navigate('welcome-screen'); 
     });
 </script>
+
+</body>
 </html>
